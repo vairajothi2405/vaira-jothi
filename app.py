@@ -1,32 +1,32 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+import os
 import mysql.connector
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import json
 
-  # Add this after app = Flask(__name__)
-
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY")
 
-app.secret_key = 'a8s5e6g1t5y3w5q4'
-db = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='Dhanush@1',
-    database='certificate_db'
-)
-cursor = db.cursor()
-
-
+def get_db():
+    required_vars = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME"]
+    missing_vars = [var for var in required_vars if not os.getenv(var)]
+    if missing_vars:
+        raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+    
+    try:
+        return mysql.connector.connect(
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME"),
+            port=int(os.getenv("DB_PORT", 3306))
+        )
+    except mysql.connector.Error as err:
+        print(f"Database connection failed: {err}")
+        raise
 
 @app.route('/')
 def home():
     return render_template("home.html")
-def get_db():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='Dhanush@1',
-        database='certificate_db'
-    )
 
 @app.route('/student', methods=['GET', 'POST'])
 def student():
@@ -95,7 +95,10 @@ def studentview():
                 # Parse JSON links
                 for i, row in enumerate(student_data):
                     row = list(row)
-                    row[6] = json.loads(row[6])  # Convert JSON string back to list
+                    try:
+                        row[6] = json.loads(row[6])  # Convert JSON string back to list
+                    except json.JSONDecodeError:
+                        row[6] = []
                     student_data[i] = row
         except mysql.connector.Error as err:
             flash(f"Database error: {err}", "error")
@@ -113,35 +116,40 @@ def admin():
         username = request.form['username'].strip()
         password = request.form['password'].strip()
 
-        db = get_db()  # Get a database connection
-        with db.cursor() as cur:  # Create cursor from connection
-            cur.execute("SELECT * FROM admin_users WHERE username = %s AND password = %s", (username, password))
-            admin = cur.fetchone()
-            
-            if admin:
-                session['admin_logged_in'] = True
-                return redirect(url_for('adminview'))
-            else:
-                flash("Invalid username or password.", "error")
-        
-        db.close()  # Close the connection
+        try:
+            db = get_db()
+            with db.cursor() as cur:
+                cur.execute("SELECT * FROM admin_users WHERE username = %s AND password = %s", (username, password))
+                admin = cur.fetchone()
+                
+                if admin:
+                    session['admin_logged_in'] = True
+                    return redirect(url_for('adminview'))
+                else:
+                    flash("Invalid username or password.", "error")
+        except mysql.connector.Error as err:
+            flash(f"Database error: {err}", "error")
+        finally:
+            db.close()
 
     return render_template("admin.html")
+
 @app.route('/adminview')
 def adminview():
     if not session.get('admin_logged_in'):
         flash("Please log in as admin to access this page.", "error")
         return redirect(url_for('admin'))
 
-    db = get_db()
+    parsed_data = []
     try:
+        db = get_db()
         with db.cursor() as cur:
             cur.execute("""
-                    SELECT name, regno, course, department, provider, email, certificate_links
-                    FROM student_certificates ORDER BY department""")
+                SELECT name, regno, course, department, provider, email, certificate_links
+                FROM student_certificates ORDER BY department
+            """)
             all_data = cur.fetchall()
             # Parse JSON links
-            parsed_data = []
             for row in all_data:
                 row = list(row)
                 try:
@@ -151,7 +159,6 @@ def adminview():
                 parsed_data.append(row)
     except mysql.connector.Error as err:
         flash(f"Database error: {err}", "error")
-        parsed_data = []
     finally:
         db.close()
     
@@ -162,8 +169,3 @@ def logout():
     session.pop('admin_logged_in', None)
     flash("Logged out successfully.", "success")
     return redirect(url_for('home'))
-@app.route('/student1')
-def student1():
-    return render_template('student.html')
-if __name__ == '__main__':
-    app.run(debug=True)
