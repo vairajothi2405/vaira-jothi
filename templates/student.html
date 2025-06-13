@@ -1,0 +1,225 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Certification Submission</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding-top: 120px; /* enough space for fixed nav and heading */
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      color: #fff;
+    }
+
+    /* New Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #0d1128;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 14px 0;
+      display: flex;
+      gap: 40px;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 6px 14px;
+      border-radius: 6px;
+    }
+
+    .navbar ul li a:hover,
+    .navbar ul li a.active {
+      background: #ff416c;
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      box-shadow: 0 6px 20px rgba(255, 75, 43, 0.7);
+      color: #fff;
+    }
+
+    /* New Header Title */
+    .page-title {
+      position: fixed;
+      top: 56px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      padding: 12px 0;
+      color: #ffcc00;
+      background: #1e1e2f;
+      text-shadow: 0 0 12px #ffcc00;
+      z-index: 999;
+      border-bottom: 2px solid #ffcc00;
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+
+    form {
+      background: #1e1e2f;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 600px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #ddd;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 2px solid #44475a;
+      background: #2e2e45;
+      color: #eee;
+      font-size: 1rem;
+      outline: none;
+      box-shadow: inset 0 0 5px rgba(255,255,255,0.05);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #ffcc00;
+      box-shadow: 0 0 10px #ffcc00;
+      background: #3b3b58;
+      color: #fff;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e1e2f;
+      background: #ffcc00;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 204, 0, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    button:hover {
+      background: #e6b800;
+      box-shadow: 0 8px 25px rgba(230, 184, 0, 0.8);
+      transform: translateY(-3px);
+    }
+
+    .cert-link {
+      margin-bottom: 12px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .cert-link:hover {
+      transform: scale(1.03);
+      border-color: #ffcc00;
+      box-shadow: 0 0 12px #ffcc00;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 8px #ffcc00; }
+      100% { text-shadow: 0 0 20px #ffcc00; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <ul>
+      <li><a href="/home">Home</a></li>
+      <li><a href="/student" class="active">Submit</a></li>
+      <li><a href="/admin">Admin</a></li>
+      <li><a href="/studentview">View</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-title">Submit Your Certification</div>
+
+  <form method="post" action="/student">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="regno">Registration Number:</label>
+    <input type="text" id="regno" name="regno" required />
+
+    <label for="course">Course:</label>
+    <select id="course" name="course" required>
+      <option value="" disabled selected>Select course</option>
+      <option value="BSc ">BSc </option>
+      <option value="BCom">BCom</option>
+      <option value="BA ">BA </option>
+      <option value="BTech">BTech</option>
+      <option value="MBA">MBA</option>
+    </select>
+
+    <label for="department">Department:</label>
+    <input type="text" id="department" name="department" required />
+
+    <label for="provider">Certificate Provider:</label>
+    <input type="text" id="provider" name="provider" required />
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+
+    <label>Certificate Links (up to 5):</label>
+    <input type="url" name="certificate_links" placeholder="Certificate Link URL" class="cert-link" />
+    <input type="url" name="certificate_links" placeholder="Certificate Link URL" class="cert-link" />
+    <input type="url" name="certificate_links" placeholder="Certificate Link URL" class="cert-link" />
+    <input type="url" name="certificate_links" placeholder="Certificate Link URL" class="cert-link" />
+    <input type="url" name="certificate_links" placeholder="Certificate Link URL" class="cert-link" />
+
+    <button type="submit">Submit</button>
+  </form>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="background: #ff4b2b; padding: 10px; margin: 10px 0; border-radius: 5px; color: #fff;">
+      {% for category, message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

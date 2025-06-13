@@ -1,0 +1,286 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Your Certificates</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* New Navigation Bar */
+    header {
+      background: #004d40;
+      padding: 16px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: #00796b;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 25px 30px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #004d40;
+      text-align: center;
+    }
+
+    form {
+      background: #ffffffdd;
+      padding: 30px 35px;
+      border-radius: 14px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+      margin-bottom: 35px;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #00796b;
+      letter-spacing: 0.03em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      margin-top: 8px;
+      border: 2px solid #b2dfdb;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: #004d40;
+      background-color: #e0f2f1;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #00796b;
+      background-color: #ffffff;
+      box-shadow: 0 0 12px #00796baa;
+      outline: none;
+    }
+
+    button {
+      margin-top: 28px;
+      padding: 14px;
+      width: 100%;
+      background: linear-gradient(45deg, #00796b, #004d40);
+      border: none;
+      color: white;
+      font-weight: 800;
+      font-size: 1.15rem;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 8px 18px #004d40cc;
+      transition: background 0.4s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #004d40, #00796b);
+      transform: scale(1.07);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 15px;
+      background: transparent;
+    }
+
+    th, td {
+      background: #004d40;
+      color: #e0f7f1;
+      padding: 16px 18px;
+      font-weight: 600;
+      border-radius: 12px;
+      text-align: left;
+      vertical-align: top;
+      user-select: none;
+      box-shadow: 0 2px 8px #004d40cc;
+    }
+
+    td {
+      background: #e0f2f1;
+      color: #004d40;
+      font-weight: 500;
+      box-shadow: inset 1px 1px 6px #a7c7c7;
+    }
+
+    tbody tr:hover td {
+      background-color: #b2dfdb;
+      color: #004d40;
+      box-shadow: inset 0 0 14px #00796baa;
+      transition: all 0.3s ease;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 0;
+      list-style-type: square;
+    }
+
+    ul li {
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #004d40;
+      transition: transform 0.25s ease;
+    }
+
+    ul li:hover {
+      color: #00796b;
+      transform: scale(1.08);
+    }
+
+    a {
+      color: #00796b;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #004d40;
+    }
+
+    th:first-child {
+      border-radius: 14px 0 0 14px;
+    }
+
+    th:last-child {
+      border-radius: 0 14px 14px 0;
+    }
+
+    .message {
+      font-size: 1.1rem;
+      color: #c62828;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px 20px;
+        margin: 40px auto;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+      }
+
+      form {
+        padding: 25px 20px;
+      }
+
+      th, td {
+        padding: 12px 10px;
+      }
+
+      button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <header>
+    <nav>
+      <a href="/home">Home</a>
+      <a href="/student">Submit</a>
+      <a href="/admin">Admin</a>
+      <a href="/studentview" class="active">View</a>
+    </nav>
+  </header>
+
+  
+  <div class="container">
+    <h2>View Your Submitted Certificates</h2>
+
+    <form method="POST" action="/studentview">
+      <label>Name</label>
+      <input type="text" name="name" value="{{ request.args.get('name', '') }}" required />
+
+      <label>Registration Number</label>
+      <input type="text" name="regno" value="{{ request.args.get('regno', '') }}" required />
+
+      <label>Email</label>
+      <input type="email" name="email" value="{{ request.args.get('email', '') }}" required />
+
+
+      <button type="submit">Search</button>
+    </form>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>reg no</th>
+          <th>course</th>
+          <th>department</th>
+          <th>provider</th>
+          <th>email</th>
+          <th>certificate links</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in student %}
+        <tr>
+          <td>{{ record[0] }}</td>
+          <td> {{ record[1] }}</td>
+          <td>{{ record[2] }}</td>
+          <td>{{ record[3] }}</td> 
+          <td>{{ record[4] }}</td>
+          <td>{{ record[5] }}</td>
+          <td>
+            <ul>
+            {% for link in record[6] %}
+              <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+            {% endfor %}
+          </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>

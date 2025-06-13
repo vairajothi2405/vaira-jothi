@@ -1,0 +1,198 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin - Student Submissions</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 40px 20px;
+  }
+
+  header {
+    background: #004d40;
+    padding: 16px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  nav {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  nav a:hover,
+  nav a.active {
+    background-color: #00796b;
+  }
+
+  h1 {
+    text-align: center;
+    color: #004d40;
+    margin: 30px 0;
+    letter-spacing: 0.1em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: #00796b;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  tr:hover {
+    background-color: #e0f2f1;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  ul li {
+    margin-bottom: 6px;
+  }
+
+  a {
+    color: #00796b;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .logout-btn {
+    display: block;
+    max-width: 140px;
+    margin: 30px auto 0;
+    padding: 12px 0;
+    background: #d32f2f;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 6px 18px #b12727cc;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .logout-btn:hover {
+    background: #9a2323;
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    table {
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+ 
+  <header>
+    <nav>
+      <a href="/home">Home</a>
+      <a href="/student">Submit</a>
+      <a href="/admin" class="active">Admin</a>
+      <a href="/studentview">View</a>
+    </nav>
+  </header>
+
+  <h1>Student Certificate Submissions</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% if submissions %}
+        <table border="1">
+            <tr>
+              
+                <th>Name</th>
+                <th>Reg No</th>
+                <th>Course</th>
+                <th>Department</th>
+                <th>Provider</th>
+                <th>Email</th>
+                <th>Certificate Links</th>
+            </tr>
+            {% for row in submissions %}
+                <tr>
+                    <td>{{ row[0] }}</td> <!-- name -->
+                    <td>{{ row[1] }}</td> <!-- regno -->
+                    <td>{{ row[2] }}</td> <!-- course -->
+                    <td>{{ row[3] }}</td> <!-- department -->
+                    <td>{{ row[4] }}</td> <!-- provider -->
+                    <td>{{ row[5] }}</td> <!-- email -->
+                    <td>
+                        {% if row[6] %} <!-- certificate_links -->
+                            {% for link in row[6] %}
+                                <a href="{{ link }}" target="_blank">{{ link }}</a><br>
+                            {% endfor %}
+                        {% else %}
+                            No links
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No submissions found.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
+
+  
+  

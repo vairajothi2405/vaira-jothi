@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Student Certification Tracker - Home</title>
+<style>
+  
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #6a11cb, #2575fc, #1fd1f9, #ff63c3);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #fff;
+  }
+
+  /* Navbar */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 12px 0;
+    display: flex;
+    gap: 35px;
+  }
+
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  nav ul li a:hover,
+  nav ul li a.active {
+    background: #ff416c;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    box-shadow: 0 6px 20px rgba(255, 75, 43, 0.7);
+    color: #fff;
+  }
+
+ 
+  .container {
+    max-width: 700px;
+    padding: 140px 30px 60px; /* extra top padding for navbar */
+    margin: 0 auto;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 15px rgba(255,255,255,0.5);
+  }
+
+  p {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+    font-weight: 500;
+    text-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+
+  a.button {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    padding: 18px 50px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(255, 75, 43, 0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+  }
+
+  a.button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 35px rgba(255, 75, 43, 0.9);
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 2.5rem;
+      letter-spacing: 0.1em;
+    }
+    p {
+      font-size: 1rem;
+    }
+    a.button {
+      font-size: 1rem;
+      padding: 14px 40px;
+    }
+    nav ul {
+      gap: 20px;
+      padding: 10px 0;
+    }
+    nav ul li a {
+      font-size: 1rem;
+      padding: 6px 10px;
+    }
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="/home" class="active">Home</a></li>
+      <li><a href="/student">Submit</a></li>
+      <li><a href="/admin">Admin</a></li>
+      <li><a href="/studentview">View</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Student Certification Tracker</h1>
+    <p>Manage and verify your certificates easily — track submissions, verify students, and stay organized.</p>
+    <a href="/student1" class="button">Submit Certificate</a>
+  </div>
+</body>
+</html>
